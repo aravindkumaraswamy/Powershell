@@ -1,0 +1,24 @@
+New-VirtualSwitch [-VMHost] <VMHost> [-Name] <String> [[-NumPorts] <Int32>] [[-Nic] <PhysicalNic[]>] [[-Mtu]
+<Int32>] [-Server <VIServer[]>] [-WhatIf] [-Confirm] [<CommonParameters>]
+
+
+
+-------------- Example 1 --------------
+
+$vswitch =  New-VirtualSwitch -VMHost 10.23.112.234 -Name VSwitch
+Creates a new virtual switch named VSwitch on the virtual machine host with IP address 10.23.112.234.
+
+-------------- Example 2 --------------
+
+$network = Get-VMHostNetwork -VMHost 10.23.112.234 
+
+$phNic = $network.PhysicalNic[0].DeviceName
+
+$vswitch = New-VirtualSwitch -VMHost 10.23.112.234 -Name VSwitch -Nic $phNic
+Creates a new virtual switch named VSwitch on the virtual machine host with IP address 10.23.112.234 with a physical network adapter.
+
+-------------- Example 3 --------------
+
+Get-VMHost *.128 | New-VirtualSwitch -Name VSwitch -Nic vmnic5,vmnic6
+Create a virtual switch named VSwitch with two physical network adapters - 'vmnic5' and 'vmnic6'. Note that the 'vmnic5' and 'vmnic6' adapters must not be assigned to other virtual switches.
+

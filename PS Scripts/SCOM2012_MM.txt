@@ -1,0 +1,111 @@
+<html>
+<head>
+<title>SCOM 2012 Maintenance Mode</title>
+<HTA:APPLICATION 
+icon = "C:\MaintenanceModeapplication\icon.ico"
+     ID="objTest" 
+     APPLICATIONNAME="SCOM 2012 MM tool"
+     SCROLL="yes"
+     SINGLEINSTANCE="yes"
+	 MaximizeButton="No"
+>
+</head>
+
+<SCRIPT LANGUAGE="VBScript">
+Sub Window_onLoad
+dim endt
+    window.resizeTo 500,300
+	endt = DateAdd("h",1,now)
+	endtime.value=endt
+	'If comment.value = "" or ScriptArea.Value = "" or endtime.value = "" then
+	'	MM_button.disabled = True
+	'End if
+	
+	
+End Sub
+
+Sub actbutton
+If comment.value <> "" and ScriptArea.Value <> "" and endtime.value <> "" then
+		MM_button.disabled = False
+	End if
+End Sub
+
+
+    Sub TestSub
+        Set objFSO=CreateObject("Scripting.FileSystemObject")
+		mon=month(now)
+		da=day(now)
+		yer=year(now)
+		hou=hour(now)
+		min=minute(now)
+		sec=second(now)
+		filname=yer & "-" & mon & "-" & da & "-" & hou & "-" & min & "-" & sec
+		outFile="C:\MaintenanceModeapplication\Servers\" & filname & ".txt"
+		'msgbox outFile
+		Set objFile = objFSO.CreateTextFile(outFile,True)
+		objFile.Write ScriptArea.value 'vbCrLf
+		objFile.Close
+		
+		outFile1="C:\MaintenanceModeapplication\Servers\out-" & filname & ".txt"
+		'		Set objFile1 = objFSO.CreateTextFile(outFile1,True)
+		'		objFile1.Write "Output"
+		'objFile1.Close
+		
+		run()
+		set oShell= CreateObject("WScript.Shell")
+		 cmdmm = "C:\MaintenanceModeapplication\SCOMMM.PS1 -fl outFile -endtime endtime.value -Comment comment.value -Type Agent"
+    oShell.SendKeys "C:\MaintenanceModeapplication\SCOMMM.PS1 -fl " &outFile& " -endtime """ & endtime.value & """ -Comment " & comment.value &"~"
+	
+	'Set objFileToRead = CreateObject("Scripting.FileSystemObject").OpenTextFile(outFile1,1)
+	'strFileText = objFileToRead.ReadAll()
+	'objFileToRead.Close
+	'Msgbox strFileText
+Set objFileToRead = Nothing
+		
+    End Sub
+    
+    
+    sub run
+    
+    		Dim oShell, runstring, Errn, opencmd
+		set oShell= CreateObject("WScript.Shell")
+		opencmd = "RunAs /u:DOMAIN\USERNAME""%SystemRoot%\system32\WindowsPowerShell\v1.0\powershell.exe"""
+		oShell.run(opencmd)
+	 sbWait(1)
+		oShell.SendKeys "Password~"
+		'CreateObject("WScript.Shell").Run "sleeper.vbs " & 3000 , True
+		sbWait(3)
+		'oShell.SendKeys "CD C:\temp~"
+		'CreateObject("WScript.Shell").Run "sleeper.vbs " & 3000 , True
+		'sbWait(3)
+    
+    End sub
+    
+    Sub sbWait(iSeconds)
+        Dim oShell  : Set oShell = CreateObject("WScript.Shell")
+        oShell.run "cmd /c ping localhost -n " & iSeconds,0,True
+End Sub
+    
+    
+    Sub MM
+   
+    
+    End Sub
+    
+      Sub ExitProgram
+            window.close()
+    End Sub
+
+</SCRIPT>
+
+<body>
+  <label for="serversnames" style="position: absolute; left: 20px; top: 10px;">Servers:</label>
+  <label for="endtime" style="position: absolute; left: 230px; top: 50px;">End time:</label>
+  <label for="comment" style="position: absolute; left: 230px; top: 110px;">Comment:</label>
+  <textarea name="ScriptArea" rows=10 cols=20 style="position: absolute; left: 20px; top: 50px;" onChange="actbutton"></textarea><p>
+  <input id = "endtime" type="text" name="endtime" size="20" style="position: absolute; left: 300px; top: 50px;" onChange="actbutton"/>
+  <input id = "comment" "type="text" name="comment" size="20" style="position: absolute; left: 300px; top: 110px;" onChange="actbutton"/>
+  <input id=mm  type="button" value="Set MM" name="MM_button" style="position: absolute; left: 250px; top: 200px;" onClick="TestSub">
+  <input id=close  type="button" value="Close" name="Close_button" style="position: absolute; left: 350px; top: 200px;" onClick="ExitProgram">
+
+</body>

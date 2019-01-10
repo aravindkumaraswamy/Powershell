@@ -1,0 +1,6 @@
+Script for checking memory :
+$computer = Read-Host ("Enter the computerName ")
+$CtrsList = "\Memory\% Committed Bytes In Use","\Memory\Available MBytes","\Memory\Cache Bytes","\Memory\Pages/sec"
+
+
+Get-Counter -ComputerName $computer -counter $CtrsList | Select-Object -ExpandProperty CounterSamples | Format-List Path,cookedValue

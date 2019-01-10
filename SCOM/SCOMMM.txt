@@ -1,0 +1,138 @@
+<html>
+<head>
+<title>SCOM 2012 Maintenance Mode</title>
+<HTA:APPLICATION 
+icon = "C:\MaintenanceModeapplication\icon.ico"
+     ID="objTest" 
+     APPLICATIONNAME="SCOM 2012 MM tool"
+     SCROLL="yes"
+     SINGLEINSTANCE="yes"
+	 MaximizeButton="No"
+>
+</head>
+
+<SCRIPT LANGUAGE="VBScript">
+Sub Window_onLoad
+dim endt
+    window.resizeTo 600,400
+	endt = DateAdd("h",1,now)
+	endtime.value=endt		
+	
+End Sub
+
+Sub actbutton
+If comment.value <> "" and ScriptArea.Value <> "" and endtime.value <> "" then
+		'MM_button.disabled = False
+	End if
+End Sub
+
+
+    Sub TestSub
+        Set objFSO=CreateObject("Scripting.FileSystemObject")
+
+		outFile="C:\Temp\MaintenanceMode\serverlist.txt"
+		'msgbox outFile
+		Set objFile = objFSO.CreateTextFile(outFile,True)
+		objFile.Write ScriptArea.value 'vbCrLf
+		objFile.Close
+		msgbox outFile
+
+ 		Dim oShell, opencmd,pscmd
+		set oShell= CreateObject("WScript.Shell")
+		opencmd ="%SystemRoot%\system32\WindowsPowerShell\v1.0\powershell.exe"
+		
+		'pscmd="Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser -Force"
+		'oShell.run(opencmd)
+		'oShell.run("Setw-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser -Force")
+		'oShell.SendKeys "C:\Temp\MaintenanceMode\SCOM_MM.PS1 -filePath " & outFile & " -EndTime """ & endtime.value & """ -Comment """ & comment.value & """
+		'oShell.SendKeys "C:\Temp\MaintenanceMode\SCOM_MM.PS1 -filePath " & outFile & " -EndTime """ & endtime.value & """ -Comment """ & comment.value & """
+		'msgbox "C:\Temp\MaintenanceMode\SCOM_MM.PS1 -filePath " & outFile & " -EndTime """ & endtime.value & """ -Comment """ & comment.value & """
+		'msgbox "C:\Temp\MaintenanceMode\SCOM_MM.PS1 -filePath ""C:\Temp\MaintenanceMode\serverlist.txt"" -EndTime "" & document.getElementById( ""endtime"").value & "" -Comment "" & document.getElementById(""comment"").value & "" "
+		'oShell.SendKeys "C:\Temp\MaintenanceMode\SCOM_MM.PS1 -filePath C:\Temp\MaintenanceMode\serverlist.txt -EndTime " & chr(34) & document.getElementById("endtime").value & chr(34) & " -Comment " & chr(34) & document.getElementById("comment").value & chr(34)
+		
+		Dim etime,com,ex
+		ex=chr(39)
+		etime= ex + document.getElementById("endtime").value + ex
+		com=ex + document.getElementById("comment").value + ex
+			
+		oShell.run("powershell -noexit C:\Temp\MaintenanceMode\SCOM_MM.PS1 -filePath C:\Temp\MaintenanceMode\serverlist.txt -EndTime " & etime & " -Comment " & com)
+		'oShell.run("powershell -noexit C:\Temp\MaintenanceMode\EDIT_MM.PS1 -filePath C:\Temp\MaintenanceMode\serverlist.txt -EndTime " & etime & " -Comment " & com)
+    End Sub
+
+    Sub EditSub
+        Set objFSO=CreateObject("Scripting.FileSystemObject")
+
+		outFile="C:\Temp\MaintenanceMode\serverlist.txt"
+		'msgbox outFile
+		Set objFile = objFSO.CreateTextFile(outFile,True)
+		objFile.Write ScriptArea.value 'vbCrLf
+		objFile.Close
+		msgbox outFile
+
+ 		Dim oShell, opencmd,pscmd
+		set oShell= CreateObject("WScript.Shell")
+		opencmd ="%SystemRoot%\system32\WindowsPowerShell\v1.0\powershell.exe"
+		
+		'pscmd="Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser -Force"
+		'oShell.run(opencmd)
+		'oShell.run("Setw-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser -Force")
+		'oShell.SendKeys "C:\Temp\MaintenanceMode\SCOM_MM.PS1 -filePath " & outFile & " -EndTime """ & endtime.value & """ -Comment """ & comment.value & """
+		'oShell.SendKeys "C:\Temp\MaintenanceMode\SCOM_MM.PS1 -filePath " & outFile & " -EndTime """ & endtime.value & """ -Comment """ & comment.value & """
+		'msgbox "C:\Temp\MaintenanceMode\SCOM_MM.PS1 -filePath " & outFile & " -EndTime """ & endtime.value & """ -Comment """ & comment.value & """
+		'msgbox "C:\Temp\MaintenanceMode\SCOM_MM.PS1 -filePath ""C:\Temp\MaintenanceMode\serverlist.txt"" -EndTime "" & document.getElementById( ""endtime"").value & "" -Comment "" & document.getElementById(""comment"").value & "" "
+		'oShell.SendKeys "C:\Temp\MaintenanceMode\SCOM_MM.PS1 -filePath C:\Temp\MaintenanceMode\serverlist.txt -EndTime " & chr(34) & document.getElementById("endtime").value & chr(34) & " -Comment " & chr(34) & document.getElementById("comment").value & chr(34)
+		
+		Dim etime,com,ex
+		ex=chr(39)
+		etime= ex + document.getElementById("endtime").value + ex
+		com=ex + document.getElementById("comment").value + ex
+			
+		'oShell.run("powershell -noexit C:\Temp\MaintenanceMode\SCOM_MM.PS1 -filePath C:\Temp\MaintenanceMode\serverlist.txt -EndTime " & etime & " -Comment " & com)
+		oShell.run("powershell -noexit C:\Temp\MaintenanceMode\EDIT_MM.PS1 -filePath C:\Temp\MaintenanceMode\serverlist.txt -EndTime " & etime & " -Comment " & com)
+    End Sub
+
+    Sub ViewSub
+	Set objFSO=CreateObject("Scripting.FileSystemObject")
+
+		outFile="C:\Temp\MaintenanceMode\serverlist.txt"
+		'msgbox outFile
+		Set objFile = objFSO.CreateTextFile(outFile,True)
+		objFile.Write ScriptArea.value 'vbCrLf
+		objFile.Close
+		msgbox outFile
+
+ 		Dim oShell, opencmd,pscmd
+		set oShell= CreateObject("WScript.Shell")
+		opencmd ="%SystemRoot%\system32\WindowsPowerShell\v1.0\powershell.exe"
+
+		Dim etime,com,ex
+		ex=chr(39)
+		etime= ex + document.getElementById("endtime").value + ex
+		com=ex + document.getElementById("comment").value + ex
+			
+		'oShell.run("powershell -noexit C:\Temp\MaintenanceMode\SCOM_MM.PS1 -filePath C:\Temp\MaintenanceMode\serverlist.txt -EndTime " & etime & " -Comment " & com)
+		'oShell.run("powershell -noexit C:\Temp\MaintenanceMode\EDIT_MM.PS1 -filePath C:\Temp\MaintenanceMode\serverlist.txt -EndTime " & etime & " -Comment " & com)
+		oShell.run("powershell -noexit C:\Temp\MaintenanceMode\VIEW_MM.PS1 -filePath C:\Temp\MaintenanceMode\serverlist.txt -EndTime " & etime & " -Comment " & com)
+
+    End Sub
+    
+        
+      Sub ExitProgram
+            window.close()
+    End Sub
+
+</SCRIPT>
+
+<body>
+  <label for="serversnames" style="position: absolute; left: 2px; top: 10px;">Servers:</label>
+  <label for="endtimelabel" style="position: absolute; left: 280px; top: 50px;">End time:</label>
+  <label for="commentlabel" style="position: absolute; left: 280px; top: 110px;">Comment:</label>
+  <textarea name="ScriptArea" rows=15 cols=28 style="position: absolute; left: 20px; top: 50px;" onChange="actbutton"></textarea><p>
+  <input id = "endtime" type="text" name="endtime" size="20" style="position: absolute; left: 350px; top: 50px;" onChange="actbutton"/>
+  <input id = "comment" "type="text" name="comment" size="20" style="position: absolute; left: 350px; top: 110px;" onChange="actbutton"/>
+  <input id=mm  type="button" value="Set MM" name="MM_button" style="position: absolute; left: 300px; top: 200px;" onClick="TestSub">
+  <input id=mm  type="button" value="Edit MM" name="MM_button" style="position: absolute; left: 300px; top: 250px;" onClick="EditSub">
+  <input id=mm  type="button" value="View MM" name="MM_button" style="position: absolute; left: 300px; top: 300px;" onClick="ViewSub">
+  <input id=close  type="button" value="Close" name="Close_button" style="position: absolute; left: 400px; top: 200px;" onClick="ExitProgram">
+
+</body>

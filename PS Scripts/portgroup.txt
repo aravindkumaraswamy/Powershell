@@ -1,0 +1,42 @@
+#Loading the VM module into the Powershell console.
+
+Write-Host "Module is loading...Please Wait.." -foregroundcolor Cyan
+Add-PSSnapin VMware.VimAutomation.Core
+
+
+#Connecting to the Target Host
+
+$value = Read-Host ("Enter the Host Name")
+
+$yes = New-Object System.Management.Automation.Host.ChoiceDescription "&Yes",""
+$no = New-Object System.Management.Automation.Host.ChoiceDescription "&No",""
+$choices = [System.Management.Automation.Host.ChoiceDescription[]]($yes,$no)
+$caption = "Warning!"
+$message = "Are you sure to want to proceed with the Host?"
+$result = $Host.UI.PromptForChoice($caption,$message,$choices,0)
+if($result -eq 0) {
+Write-Host "Connecting to the Host"
+
+Connect-VIServer $value
+
+#Creating a Virtual Machine Port Group
+
+$Sname = Read-Host ("Enter the Switch name") 
+$vnic1 = Read-Host ("Enter the vmnic")
+$vnic2 = Read-Host ("Enter the vmnic") 
+
+$vswitch =  New-VirtualSwitch -VMHost $value -Name $Sname -Nic $vnic1,$vnic2
+Write-Host "Switch is getting created. Please wait..." -foregroundcolor Yellow
+$vportgroup =  New-VirtualPortGroup -VirtualSwitch $vswitch  -Name 'iSCSI VM0' 
+Write-Host "Switch is created successfully" -foregroundcolor Green
+}
+
+if($result -eq 1) 
+{ 
+Write-Host "Exiting out of the Script"
+}
+ 
+
+
+
+
