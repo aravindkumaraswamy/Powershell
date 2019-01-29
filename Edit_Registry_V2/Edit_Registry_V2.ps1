@@ -15,7 +15,7 @@ Input.csv
     
 
 .NOTES
-Author         :Sherajun Safira (NAR Wintel)
+Author         :Aravind Kumarasamy (NAR Wintel)
 File Name      :Edit_Registry_V2.ps1
 Date           :09/20/2017
 Requires       :Any version of PowerShell
