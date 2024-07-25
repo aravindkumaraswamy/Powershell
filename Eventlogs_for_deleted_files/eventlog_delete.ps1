@@ -17,7 +17,7 @@ $start time and $endtime
 Author         :Aravind Kumarasamy (NAR Wintel)
 File Name      :eventlog_delete.ps1
 Date           :10/21/2017
-Requires       : Any version of PowerShell
+Requires       : 1.X version of PowerShell
 Version        : 1.0.0 or greater
 
 #>
